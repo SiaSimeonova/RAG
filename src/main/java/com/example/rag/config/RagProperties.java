@@ -11,6 +11,7 @@ public record RagProperties(
         Retrieval retrieval
 ) {
     public record Cors(java.util.List<String> allowedOrigins) {}
-    public record Ingestion(int chunkSize, int chunkOverlap) {}
+    public record Ingestion(int chunkSize, int chunkOverlap, Async async) {}
+    public record Async(int corePoolSize, int maxPoolSize, int queueCapacity) {}
     public record Retrieval(int topK) {}
 }

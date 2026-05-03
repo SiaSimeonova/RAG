@@ -62,7 +62,11 @@ rag:
     chat-provider: openai   # openai | claude | qwen3  (must match active profile)
   ingestion:
     chunk-size: 500
-    chunk-overlap: 100
+    chunk-overlap: 100   # kept for backward compat; TokenTextSplitter uses sentence boundaries instead
+    async:
+      core-pool-size: 2
+      max-pool-size: 5
+      queue-capacity: 50
   retrieval:
     top-k: 5
   security:

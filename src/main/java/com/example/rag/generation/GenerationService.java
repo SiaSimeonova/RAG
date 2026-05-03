@@ -35,6 +35,7 @@ public class GenerationService {
                     .system("""
                             You are a helpful assistant. Answer the user's question using ONLY
                             the provided context. If the answer is not in the context, say so.
+                            Respond in the same language as the user's question.
                             """)
                     .user("""
                             Context:

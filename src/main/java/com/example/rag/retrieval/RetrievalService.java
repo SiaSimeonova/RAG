@@ -38,7 +38,7 @@ public class RetrievalService {
                 SearchRequest.builder()
                         .query(query)
                         .topK(topK)
-                        .filterExpression("source == '" + source + "'")
+                        .filterExpression("source == '" + source.replace("'", "\\'") + "'")
                         .build()
         );
         log.debug("Retrieved {} chunks from source '{}'", results.size(), source);
