@@ -1,0 +1,33 @@
+# Profile: qwen3
+# Chat model: Qwen3 via Ollama (runs locally — no API key needed)
+# Embedding model: nomic-embed-text via Ollama (768 dimensions)
+# Requirements: Ollama running locally on port 11434
+#   ollama pull qwen3
+#   ollama pull nomic-embed-text
+#
+# IMPORTANT: pgvector dimensions differ from openai/claude profiles (768 vs 1536).
+# If you previously used another profile, drop and recreate the vector table:
+#   DROP TABLE vector_store;
+# Spring AI will recreate it with the correct dimensions on next startup.
+
+rag:
+  llm:
+    chat-provider: qwen3
+
+spring:
+  ai:
+    openai:
+      api-key: "not-used-in-qwen3-profile"
+    anthropic:
+      api-key: "not-used-in-qwen3-profile"
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        options:
+          model: qwen3:0.6b
+      embedding:
+        options:
+          model: nomic-embed-text
+    vectorstore:
+      pgvector:
+        dimensions: 768

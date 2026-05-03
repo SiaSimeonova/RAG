@@ -1,0 +1,73 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ragdb
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:postgres}
+
+  profiles:
+    active: openai   # change to 'claude' or 'qwen3' to switch LLM
+
+  sql:
+    init:
+      mode: always   # run schema.sql on every startup (CREATE TABLE IF NOT EXISTS makes it safe)
+
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 52MB
+
+  ai:
+    vectorstore:
+      pgvector:
+        initialize-schema: true
+        distance-type: COSINE_DISTANCE
+        # dimensions is set per-profile because it depends on the embedding model
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      show-details: when_authorized   # show DB/disk details only to authenticated users
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: RAG Module
+    description: Retrieval-Augmented Generation service
+
+logging:
+  level:
+    com.example.rag: DEBUG
+    org.springframework.security: INFO
+    org.springframework.ai: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+
+rag:
+  cors:
+    allowed-origins:
+      - "http://localhost:3000"   # add more entries per environment
+  llm:
+    chat-provider: openai   # openai | claude | qwen3  (must match active profile)
+  ingestion:
+    chunk-size: 500
+    chunk-overlap: 100
+  retrieval:
+    top-k: 5
+  security:
+    jwt:
+      # Use a strong random secret in production — at least 32 characters.
+      # Generate one with: openssl rand -base64 32
+      secret: ${JWT_SECRET:change-me-in-production-must-be-32-chars!!}
+      expiration-ms: 86400000   # 24 hours

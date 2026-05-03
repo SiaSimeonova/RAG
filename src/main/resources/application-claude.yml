@@ -1,0 +1,26 @@
+# Profile: claude
+# Chat model: Anthropic Claude claude-opus-4-7
+# Embedding model: OpenAI text-embedding-3-small (1536 dimensions)
+# Requirements: ANTHROPIC_API_KEY + OPENAI_API_KEY (embeddings only)
+
+rag:
+  llm:
+    chat-provider: claude
+
+spring:
+  ai:
+    anthropic:
+      api-key: ${ANTHROPIC_API_KEY}
+      chat:
+        options:
+          model: claude-opus-4-7
+    openai:
+      api-key: ${OPENAI_API_KEY}   # still needed for embeddings
+      chat:
+        enabled: false             # disable OpenAI chat — Claude handles it
+      embedding:
+        options:
+          model: text-embedding-3-small
+    vectorstore:
+      pgvector:
+        dimensions: 1536

@@ -1,0 +1,5 @@
+com/example/rag/config/TestBeansConfig.class
+com/example/rag/api/RagControllerTest.class
+com/example/rag/RagFacadeTest.class
+com/example/rag/api/AuthControllerTest.class
+com/example/rag/security/JwtServiceTest.class

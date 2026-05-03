@@ -1,0 +1,42 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  autoconfigure:
+    exclude:
+      # Disable pgvector — H2 doesn't support the 'vector' type
+      # Package moved in Spring AI 2.0: was org.springframework.ai.autoconfigure.vectorstore.pgvector.*
+      - org.springframework.ai.vectorstore.pgvector.autoconfigure.PgVectorStoreAutoConfiguration
+      # Disable Ollama — not available in CI/test environments
+      # Package moved in Spring AI 2.0: was org.springframework.ai.autoconfigure.ollama.*
+      - org.springframework.ai.ollama.autoconfigure.OllamaAutoConfiguration
+  ai:
+    openai:
+      # Placeholder so OpenAI auto-configurations (chat, speech, image, etc.) start without errors.
+      # No real API calls are made in tests — TestBeansConfig provides mock ChatClient/VectorStore.
+      api-key: "test-not-used"
+    anthropic:
+      # Same pattern for Anthropic auto-configuration.
+      api-key: "test-not-used"
+
+rag:
+  cors:
+    allowed-origins:
+      - "http://localhost:3000"
+  llm:
+    chat-provider: openai
+  ingestion:
+    chunk-size: 500
+    chunk-overlap: 100
+  retrieval:
+    top-k: 5
+  security:
+    jwt:
+      secret: test-secret-key-for-testing-only-32chars
+      expiration-ms: 3600000
+
+logging:
+  level:
+    com.example.rag: WARN   # keep test output clean

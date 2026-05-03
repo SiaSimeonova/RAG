@@ -1,0 +1,24 @@
+# Profile: openai
+# Chat model: OpenAI GPT-4o
+# Embedding model: OpenAI text-embedding-3-small (1536 dimensions)
+# Requirements: OPENAI_API_KEY env var
+
+rag:
+  llm:
+    chat-provider: openai
+
+spring:
+  ai:
+    anthropic:
+      api-key: "not-used-in-openai-profile"
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      chat:
+        options:
+          model: gpt-4o
+      embedding:
+        options:
+          model: text-embedding-3-small
+    vectorstore:
+      pgvector:
+        dimensions: 1536
